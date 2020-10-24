@@ -2,16 +2,18 @@ import re
 import urllib.request
 import requests
 import sys
+cid = input("Enter your Client ID: ")
+bearer = input ("Enter 'Bearer YOUROAUTHKEY': ")
 
 basepath = 'downloads/'
 base_clip_path = 'https://clips-media-assets2.twitch.tv/'
 
 
 def retrieve_mp4_data(slug):
-    cid = sys.argv[1]
+    #cid = sys.argv[1] ### Disabled since we're calling inputs to specify cid and oauth
     clip_info = requests.get(
         "https://api.twitch.tv/helix/clips?id=" + slug,
-        headers={"Client-ID": cid}).json()
+        headers={"Client-Id": cid, "Authorization" : bearer}).json()
     thumb_url = clip_info['data'][0]['thumbnail_url']
     title = clip_info['data'][0]['title']
     slice_point = thumb_url.index("-preview-")
